@@ -4,17 +4,22 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var r = require('rethinkdb');
 
 var config = require('./config');
+
+var r = require('rethinkdbdash')(config.rethinkdb);
+
+r.dbList().contains(config.rethinkdb.db).run().then(function(result){
+  if (!result) {
+    r.dbCreate(config.rethinkdb.db).run();
+  }
+});
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var tasks = require('./routes/tasks');
 
-var db = require('./model/db');
-
-var app = express();
+var app = module.exports = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,8 +32,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(createConnection);
 
 app.use('/', routes);
 app.use('/users', users);
@@ -64,20 +67,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
-function createConnection(req, res, next) {
-  r.connect(config.rethinkdb).then(function(conn) {
-    // Save the connection in `req`
-    req._rdbConn = conn;
-    // Pass the current request to the next middleware
-    next();
-  }).error(handleError(res));
-}
-
-function handleError(res) {
-  return function(error) {
-    res.send(500, {error: error.message});
-  }
-}
 
 module.exports = app;

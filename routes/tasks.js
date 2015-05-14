@@ -1,9 +1,32 @@
 var express = require('express');
 var router = express.Router();
+var config = require('../config');
+var r = require('rethinkdbdash')(config.rethinkdb);
+
+r.db(config.rethinkdb.db).tableList().contains('todos').run().then(function(result){
+  if (!result) {
+    r.db(config.rethinkdb.db).tableCreate('todos').run().then(function(){
+      r.table('todos').indexCreate('createdAt').run();
+    });
+  }
+});
 
 router.get('/', function(req, res, next) {
   // list all tasks
-  res.send('respond with a resource');
+  r.table('todos').orderBy({index: 'createdAt'}).run().then(function(err, cursor) {
+    if(err) {
+      return next(err);
+    }
+
+    //Retrieve all the todos in an array.
+    cursor.toArray(function(err, result) {
+      if(err) {
+        return next(err);
+      }
+
+      res.json(result);
+    });
+  });
 });
 
 // view a specific task
