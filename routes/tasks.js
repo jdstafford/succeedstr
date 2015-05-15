@@ -23,6 +23,12 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/completed', function(req, res, next) {
+  console.log('this');
+  var result = []; // fix this
+  res.render('tasks/completed', {title: config.title, tasks: result});
+});
+
 // view a specific task
 router.get('/:task_id', function(req, res, next) {
   res.send('respond with a resource');
@@ -69,12 +75,6 @@ router.put('/:task_id', function(req, res, next) {
 router.delete('/:task_id', function(req, res, next) {
   // delete a task
   res.send('respond with a resource');
-});
-
-router.get('/completed', function(req, res, next) {
-  console.log('this');
-  var result = []; // fix this
-  res.render('tasks/completed', {title: config.title, tasks: result});
 });
 
 module.exports = router;
