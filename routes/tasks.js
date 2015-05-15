@@ -18,12 +18,12 @@ router.get('/', function(req, res, next) {
 
 router.get('/data', function(req, res, next) {
   // list all tasks
-  r.table('todos').orderBy({index: 'createdAt'}).run().then(function(err, result) {
-    if(err) {
-      console.log(err);
+  r.table('todos').orderBy({index: 'createdAt'}).run().then(function(result) {
+    try {
+      res.render('partials/tasks/list', {tasks: result});
+    } catch (e) {
+      console.log('Error ' + e);
     }
-    result = result || [];
-    res.render('partials/tasks/list', {tasks: result});
   });
 });
 
@@ -40,16 +40,16 @@ router.put('/:task_id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   // create a task
   try {
-      var taskId = req.body.task_id,
-          toDo = req.body.to_do;
+      var toDo = req.body.todo;
 
       r.table('todos').insert({
-          taskId : taskId,
-          todo : toDo
+          todo : toDo,
+          createdAt: new Date().toUTCString(),
+          deleted: false
       }).run().then(function(result) {
           var message = {
-              title : taskId,
-              todo : toDo
+            title : result.generated_keys[0],
+            todo : toDo
           };
 
           request.post({

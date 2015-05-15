@@ -13,11 +13,12 @@ block content
 
   h1 #{title} / Tasks
 
-  div.name
-    input(type='text', class='taskTodo' name='taskTodo', placeholder='Add a new task')
-  div.delete
-    input.btn.btn-primary.btn-sm(type="submit", value='add', class="addTask")
+  div.main
+    div.name
+      input(type='text', class='taskTodo' name='taskTodo', placeholder='Add a new task')
+    div.delete
+      input.btn.btn-primary.btn-sm(type="submit", value='add', class="addTask")
 
-  .clear
+    .clear
 
-  div.taskList
+    div.taskList

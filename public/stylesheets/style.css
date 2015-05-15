@@ -8,9 +8,16 @@ a {
   color: #00B7FF;
 }
 
+.main {
+  min-width: 300px;
+  max-width: 650px;
+}
+
 .name {
   float: left;
   width: 75%;
+  min-width: 100px;
+  max-width: 500px;
 }
 
 .name input {
@@ -20,6 +27,8 @@ a {
 .delete {
   float: right;
   width: 25%;
+  min-width: 50px;
+  max-width: 100px;
 }
 
 .clear {
