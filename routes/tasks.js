@@ -18,13 +18,15 @@ router.get('/', function(req, res, next) {
 
 router.get('/data', function(req, res, next) {
   // list all tasks
-  r.table('todos').orderBy({index: 'createdAt'}).run().then(function(result) {
-    try {
-      res.render('partials/tasks/list', {tasks: result});
-    } catch (e) {
-      console.log('Error ' + e);
-    }
-  });
+  r.table('todos')
+    .orderBy({index: 'createdAt'})
+    .filter({deleted: false}).run().then(function(result) {
+      try {
+        res.render('partials/tasks/list', {tasks: result});
+      } catch (e) {
+        console.log('Error ' + e);
+      }
+    });
 });
 
 router.get('/completed', function(req, res, next) {
