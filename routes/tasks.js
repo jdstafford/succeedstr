@@ -14,19 +14,12 @@ r.db(config.rethinkdb.db).tableList().contains('todos').run().then(function(resu
 
 router.get('/', function(req, res, next) {
   // list all tasks
-  r.table('todos').orderBy({index: 'createdAt'}).run().then(function(err, cursor) {
+  r.table('todos').orderBy({index: 'createdAt'}).run().then(function(err, result) {
     if(err) {
-      return next(err);
+      console.log(err);
     }
-
-    //Retrieve all the todos in an array.
-    cursor.toArray(function(err, result) {
-      if(err) {
-        return next(err);
-      }
-
-      res.json(result);
-    });
+    result = result || [];
+    res.render('tasks/index', {title: config.title, tasks: result});
   });
 });
 
@@ -79,8 +72,9 @@ router.delete('/:task_id', function(req, res, next) {
 });
 
 router.get('/completed', function(req, res, next) {
-  // list all completed tasks
-  res.send('respond with a resource');
+  console.log('this');
+  var result = []; // fix this
+  res.render('tasks/completed', {title: config.title, tasks: result});
 });
 
 module.exports = router;

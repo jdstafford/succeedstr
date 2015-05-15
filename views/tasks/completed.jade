@@ -1,14 +1,18 @@
-extends layout
+extends ../layout
 
 block content
   .menu
     h2 Menu
     ul.nav.nav-pills
-      li.active
+      li
         a(href="/") Home
       li
         a(href="/tasks") Todo List
-      li
+      li.active
         a(href="/tasks/completed") Completed
-  h1= title
-  p #{title} is a different kind of succeeding app.
+
+  h1 #{title} / Tasks
+
+  ul
+    each task in tasks
+      li task
