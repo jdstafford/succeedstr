@@ -32,8 +32,8 @@ router.get('/completed', function(req, res, next) {
   res.render('tasks/completed', {title: config.title, tasks: result});
 });
 
-// view a specific task
-router.get('/:task_id', function(req, res, next) {
+// update a task
+router.put('/:task_id', function(req, res, next) {
   res.send('respond with a resource');
 });
 

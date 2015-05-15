@@ -11,6 +11,12 @@ $(document).ready(function() {
     });
   });
 
+  $('.delTask').click(function() {
 
+  });
 
+  $('.completeTask').click(function() {
+
+  });
+  
 });
