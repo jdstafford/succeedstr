@@ -13,6 +13,11 @@ block content
 
   h1 #{title} / Tasks
 
-  ul
-    each task in tasks
-      li task
+  div.name
+    input(type='text', class='taskTodo' name='taskTodo', placeholder='Add a new task')
+  div.delete
+    input.btn.btn-primary.btn-sm(type="submit", value='add', class="addTask")
+
+  .clear
+
+  div.taskList

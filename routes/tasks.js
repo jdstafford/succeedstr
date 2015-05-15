@@ -13,18 +13,21 @@ r.db(config.rethinkdb.db).tableList().contains('todos').run().then(function(resu
 });
 
 router.get('/', function(req, res, next) {
+  res.render('tasks/index', {title: config.title});
+});
+
+router.get('/data', function(req, res, next) {
   // list all tasks
   r.table('todos').orderBy({index: 'createdAt'}).run().then(function(err, result) {
     if(err) {
       console.log(err);
     }
     result = result || [];
-    res.render('tasks/index', {title: config.title, tasks: result});
+    res.render('partials/tasks/list', {tasks: result});
   });
 });
 
 router.get('/completed', function(req, res, next) {
-  console.log('this');
   var result = []; // fix this
   res.render('tasks/completed', {title: config.title, tasks: result});
 });
@@ -65,11 +68,6 @@ router.post('/', function(req, res, next) {
       console.log(err);
       res.status(400).json({ error: err.message });
   }
-});
-
-router.put('/:task_id', function(req, res, next) {
-  // update a task
-  res.send('respond with a resource');
 });
 
 router.delete('/:task_id', function(req, res, next) {

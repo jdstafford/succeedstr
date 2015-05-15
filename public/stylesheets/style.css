@@ -1,8 +1,27 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #F0F0F0;
 }
 
 a {
   color: #00B7FF;
+}
+
+.name {
+  float: left;
+  width: 75%;
+}
+
+.name input {
+  width: 95%;
+}
+
+.delete {
+  float: right;
+  width: 25%;
+}
+
+.clear {
+  clear: both;
 }
